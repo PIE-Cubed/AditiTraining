@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+//import edu.wpi.first.math.proto.Controller;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,6 +20,13 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  public Controller controller;
+  private long initTime;
+  
+
+  public Robot() {
+    controller = new Controller();
+  }
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -82,11 +90,22 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when the robot is disabled. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    initTime = System.currentTimeMillis();
+  }
 
   /** This function is called periodically when disabled. */
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    long currentTime;
+
+
+    currentTime = System.currentTimeMillis();
+    if ((currentTime - initTime) > 1000) {
+      controller.updateController();
+      initTime = currentTime;
+    }
+  }
 
   /** This function is called once when test mode is enabled. */
   @Override
