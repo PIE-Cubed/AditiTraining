@@ -8,6 +8,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,7 +24,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public Controller controller;
   private long initTime;
-  
+  private CANSparkMax motor11;
 
   public Robot() {
     controller = new Controller();
@@ -109,11 +111,21 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when test mode is enabled. */
   @Override
-  public void testInit() {}
+  public void testInit() {
+      motor11 = new CANSparkMax(11, CANSparkLowLevel.MotorType.kBrushless);
+      SmartDashboard.putNumber("Motor Power", 0.0);
+  }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    double power;
+
+
+    power = controller.getMotorPower();
+    // power = SmartDashboard.getNumber("Motor Power", 0.0);
+     motor11.set(power);
+  }
 
   /** This function is called once when the robot is first started up. */
   @Override

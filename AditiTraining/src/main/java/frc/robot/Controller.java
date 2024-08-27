@@ -18,8 +18,9 @@ public class Controller {
     public Controller() {
        manipulatorPort = getManipulatorPort();
        driverPort      = getDriverPort();
+       System.out.println("manip" + manipulatorPort + " driver" + driverPort);
+       updateController();
 
-    
 
     }
     
@@ -31,7 +32,7 @@ public class Controller {
             genericController = new GenericHID(portNum);
 
             if(genericController.isConnected() == true) {
-                System.out.println("Name is " + genericController.getName());
+               // System.out.println("Name is " + genericController.getName());
             }
             
             if (genericController.getName().equals(MANIP_NAME) == true){
@@ -50,7 +51,7 @@ public class Controller {
             genericController = new GenericHID(portNum);
 
             if(genericController.isConnected() == true) {
-                System.out.println("Name is " + genericController.getName());
+                //System.out.println("Name is " + genericController.getName());
             }
             
             if (genericController.getName().equals(DRIVER_NAME) == true){
@@ -77,7 +78,15 @@ public class Controller {
             manipulatorPort = currentManipulatorPort;
             System.out.println("Manipulator controller is now on port: " + manipulatorPort);
         }
-        
+        //check
 
+    }
+
+    public double getMotorPower() {
+        double yPower;
+
+
+        yPower = driverController.getRightY();
+        return yPower * -1;
     }
 }
